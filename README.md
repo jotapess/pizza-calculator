@@ -1,4 +1,4 @@
-# 🍕 Neapolitan Pizza Calculator
+# 🍕 Neapolitan Pizza Calculator (Vibe)
 
 A sophisticated web application for calculating perfect Neapolitan pizza dough recipes with intelligent timeline scheduling. Built with Next.js, React, and Tailwind CSS.
 
