@@ -136,13 +136,29 @@ export default function PizzaCalculatorWithURL() {
     return dateTime;
   };
 
+  // Helper function to format display values with max 1 decimal place
+  const formatAmount = (num) => {
+    // If it's a whole number, show without decimal
+    if (num === Math.floor(num)) {
+      return num.toString();
+    }
+    // Otherwise, show with max 1 decimal place
+    return num.toFixed(1).replace(/\.0$/, '');
+  };
+
   const calculateRecipe = () => {
     const totalDoughWeight = pizzaCount * ballWeight;
     const flourWeight = totalDoughWeight / (1 + hydration/100 + saltPercent/100 + 0.005);
     
     const roundUp5 = (num) => Math.ceil(num / 5) * 5;
-    const roundUp05 = (num) => Math.ceil(num / 0.5) * 0.5;
-    const roundUp01 = (num) => Math.ceil(num / 0.1) * 0.1;
+    const roundUp05 = (num) => {
+      const rounded = Math.ceil(num / 0.5) * 0.5;
+      return Math.round(rounded * 10) / 10; // Ensure max 1 decimal
+    };
+    const roundUp01 = (num) => {
+      const rounded = Math.ceil(num / 0.1) * 0.1;
+      return Math.round(rounded * 10) / 10; // Ensure max 1 decimal
+    };
     
     if (method === 'poolish') {
       const poolishFlour = flourWeight * (poolishPercent / 100);
@@ -373,16 +389,16 @@ export default function PizzaCalculatorWithURL() {
               </div>
               {method === 'poolish' ? (
                 <>
-                  <div className="mb-6 pb-6 border-b border-gray-200"><h3 className="font-bold text-lg text-red-600 mb-4">Poolish</h3><div className="space-y-2"><div className="flex justify-between"><span className="text-gray-700">00 Flour</span><span className="font-bold">{recipe.poolish.flour}g</span></div><div className="flex justify-between"><span className="text-gray-700">Water</span><span className="font-bold">{recipe.poolish.water}g</span></div><div className="flex justify-between"><span className="text-gray-700">Instant Yeast</span><span className="font-bold">{recipe.poolish.yeast}g</span></div></div></div>
-                  <div><h3 className="font-bold text-lg text-red-600 mb-4">Final Dough</h3><div className="space-y-2"><div className="flex justify-between"><span className="text-gray-700">Poolish (all of it)</span><span className="font-bold">{recipe.dough.poolish}g</span></div><div className="flex justify-between"><span className="text-gray-700">00 Flour</span><span className="font-bold">{recipe.dough.flour}g</span></div><div className="flex justify-between"><span className="text-gray-700">Water</span><span className="font-bold">{recipe.dough.water}g</span></div><div className="flex justify-between"><span className="text-gray-700">Salt</span><span className="font-bold">{recipe.dough.salt}g</span></div><div className="flex justify-between"><span className="text-gray-700">Instant Yeast</span><span className="font-bold">{recipe.dough.yeast}g</span></div></div></div>
+                  <div className="mb-6 pb-6 border-b border-gray-200"><h3 className="font-bold text-lg text-red-600 mb-4">Poolish</h3><div className="space-y-2"><div className="flex justify-between"><span className="text-gray-700">00 Flour</span><span className="font-bold">{formatAmount(recipe.poolish.flour)}g</span></div><div className="flex justify-between"><span className="text-gray-700">Water</span><span className="font-bold">{formatAmount(recipe.poolish.water)}g</span></div><div className="flex justify-between"><span className="text-gray-700">Instant Yeast</span><span className="font-bold">{formatAmount(recipe.poolish.yeast)}g</span></div></div></div>
+                  <div><h3 className="font-bold text-lg text-red-600 mb-4">Final Dough</h3><div className="space-y-2"><div className="flex justify-between"><span className="text-gray-700">Poolish (all of it)</span><span className="font-bold">{formatAmount(recipe.dough.poolish)}g</span></div><div className="flex justify-between"><span className="text-gray-700">00 Flour</span><span className="font-bold">{formatAmount(recipe.dough.flour)}g</span></div><div className="flex justify-between"><span className="text-gray-700">Water</span><span className="font-bold">{formatAmount(recipe.dough.water)}g</span></div><div className="flex justify-between"><span className="text-gray-700">Salt</span><span className="font-bold">{formatAmount(recipe.dough.salt)}g</span></div><div className="flex justify-between"><span className="text-gray-700">Instant Yeast</span><span className="font-bold">{formatAmount(recipe.dough.yeast)}g</span></div></div></div>
                 </>
               ) : (
                 <>
-                  <div className="mb-6 pb-6 border-b border-gray-200"><h3 className="font-bold text-lg text-red-600 mb-4">Sourdough Starter</h3><div className="space-y-2"><div className="flex justify-between"><span className="text-gray-700">Active starter (100% hydration)</span><span className="font-bold">{recipe.starter.amount}g</span></div></div></div>
-                  <div><h3 className="font-bold text-lg text-red-600 mb-4">Final Dough</h3><div className="space-y-2"><div className="flex justify-between"><span className="text-gray-700">Starter (all of it)</span><span className="font-bold">{recipe.dough.starter}g</span></div><div className="flex justify-between"><span className="text-gray-700">00 Flour</span><span className="font-bold">{recipe.dough.flour}g</span></div><div className="flex justify-between"><span className="text-gray-700">Water</span><span className="font-bold">{recipe.dough.water}g</span></div><div className="flex justify-between"><span className="text-gray-700">Salt</span><span className="font-bold">{recipe.dough.salt}g</span></div></div></div>
+                  <div className="mb-6 pb-6 border-b border-gray-200"><h3 className="font-bold text-lg text-red-600 mb-4">Sourdough Starter</h3><div className="space-y-2"><div className="flex justify-between"><span className="text-gray-700">Active starter (100% hydration)</span><span className="font-bold">{formatAmount(recipe.starter.amount)}g</span></div></div></div>
+                  <div><h3 className="font-bold text-lg text-red-600 mb-4">Final Dough</h3><div className="space-y-2"><div className="flex justify-between"><span className="text-gray-700">Starter (all of it)</span><span className="font-bold">{formatAmount(recipe.dough.starter)}g</span></div><div className="flex justify-between"><span className="text-gray-700">00 Flour</span><span className="font-bold">{formatAmount(recipe.dough.flour)}g</span></div><div className="flex justify-between"><span className="text-gray-700">Water</span><span className="font-bold">{formatAmount(recipe.dough.water)}g</span></div><div className="flex justify-between"><span className="text-gray-700">Salt</span><span className="font-bold">{formatAmount(recipe.dough.salt)}g</span></div></div></div>
                 </>
               )}
-              <div className="mt-6 pt-6 border-t border-gray-200"><div className="text-sm text-gray-600 space-y-1"><div className="flex justify-between"><span>Total flour:</span><span>{recipe.total.flour}g</span></div><div className="flex justify-between"><span>Total water:</span><span>{recipe.total.water}g</span></div><div className="flex justify-between"><span>Hydration:</span><span>{hydration}%</span></div></div></div>
+              <div className="mt-6 pt-6 border-t border-gray-200"><div className="text-sm text-gray-600 space-y-1"><div className="flex justify-between"><span>Total flour:</span><span>{formatAmount(recipe.total.flour)}g</span></div><div className="flex justify-between"><span>Total water:</span><span>{formatAmount(recipe.total.water)}g</span></div><div className="flex justify-between"><span>Hydration:</span><span>{hydration}%</span></div></div></div>
             </div>
             
             <div className="bg-white rounded-3xl shadow-xl p-8">
