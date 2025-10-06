@@ -12,7 +12,8 @@
       "Bash(git push:*)",
       "Bash(git pull:*)",
       "Bash(git config:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(npm i:*)"
     ],
     "deny": [],
     "ask": []
